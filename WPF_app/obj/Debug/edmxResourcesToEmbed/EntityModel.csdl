@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="wpfCrudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Genders">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Members" Relationship="Self.FK__Members__gender__60A75C0F" FromRole="Genders" ToRole="Members" />
+  </EntityType>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="gender" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Genders" Relationship="Self.FK__Members__gender__60A75C0F" FromRole="Members" ToRole="Genders" />
+  </EntityType>
+  <Association Name="FK__Members__gender__60A75C0F">
+    <End Role="Genders" Type="Self.Genders" Multiplicity="1" />
+    <End Role="Members" Type="Self.Members" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genders">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Members">
+        <PropertyRef Name="gender" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="wpfCrudEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Genders" EntityType="Self.Genders" />
+    <EntitySet Name="Members" EntityType="Self.Members" />
+    <AssociationSet Name="FK__Members__gender__60A75C0F" Association="Self.FK__Members__gender__60A75C0F">
+      <End Role="Genders" EntitySet="Genders" />
+      <End Role="Members" EntitySet="Members" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
